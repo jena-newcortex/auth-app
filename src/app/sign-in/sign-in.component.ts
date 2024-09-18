@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { NgForm } from '@angular/forms';  // Import NgForm
 import { AuthService } from '../auth.service';
-import { Router } from '@angular/router'; // For navigating between routes
+import { Router } from '@angular/router';
+import { NgForm } from '@angular/forms';  // Import NgForm for form handling
+import { HttpClient } from '@angular/common/http';  // To make backend request to launch Streamlit
 
 @Component({
   selector: 'app-sign-in',
@@ -14,15 +15,18 @@ export class SignInComponent {
   errorMessage: string = '';
   showIframe: boolean = false;
 
-  constructor(private authService: AuthService, private router: Router) {}
-  // Handling form submission using NgForm
-  // Handling form submission using NgForm
+  constructor(private authService: AuthService, private router: Router, private http: HttpClient) {}
+
+  // Submit form via ngForm
   onSubmit(signInForm: NgForm) {
     if (signInForm.valid) {
       this.authService.signInWithEmail(this.email, this.password)
         .then(user => {
           this.errorMessage = '';  // Clear any previous errors
           this.showIframe = true;  // Show iframe on successful login
+          if (user.email) {
+            this.launchStreamlitApp(user.email);  // Pass the email to launch Streamlit if email is not null
+          }
         })
         .catch(error => {
           if (error.message === 'Your account is pending approval.') {
@@ -40,6 +44,9 @@ export class SignInComponent {
       .then(user => {
         this.errorMessage = '';  // Clear any previous errors
         this.showIframe = true;  // Show iframe on successful login
+        if (user.email) {
+          this.launchStreamlitApp(user.email);  // Pass the email to launch Streamlit if email is not null
+        }
       })
       .catch(error => {
         if (error.message === 'Your account is pending approval.') {
@@ -56,6 +63,9 @@ export class SignInComponent {
       .then(user => {
         this.errorMessage = '';  // Clear any previous errors
         this.showIframe = true;  // Show iframe on successful login
+        if (user.email) {
+          this.launchStreamlitApp(user.email);  // Pass the email to launch Streamlit if email is not null
+        }
       })
       .catch(error => {
         if (error.message === 'Your account is pending approval.') {
@@ -66,12 +76,12 @@ export class SignInComponent {
         this.showIframe = false;  // Hide iframe on error
       });
   }
-}
 
-  // launchStreamlitApp(email: string) {
-  //   // Call a backend API to launch Streamlit with the email
-  //   this.http.post('/api/launch-streamlit', { email }).subscribe(response => {
-  //     console.log('Streamlit app launched with email:', email);
-  //   });
-  // }
-// }
+  // Function to launch the Streamlit app with the email as an argument
+  launchStreamlitApp(email: string) {
+    // Call a backend API to launch Streamlit with the email
+    this.http.post('/api/launch-streamlit', { email }).subscribe(response => {
+      console.log('Streamlit app launched with email:', email);
+    });
+  }
+}

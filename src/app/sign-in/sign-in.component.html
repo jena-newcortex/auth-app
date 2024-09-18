@@ -1,15 +1,33 @@
 <div class="login-container" *ngIf="!showIframe">
   <img src="chat_logo.png" alt="Company Logo" class="logo">
   <h2>Sign In</h2>
+  
+  <!-- Sign-in form with ngForm -->
   <form #signInForm="ngForm" (ngSubmit)="onSubmit(signInForm)">
-    <input name="email" [(ngModel)]="email" type="email" placeholder="Email" required #emailField="ngModel" />
-    <div *ngIf="emailField.invalid && emailField.touched" class="error-message">Email is required and must be valid</div>
-
-    <input name="password" [(ngModel)]="password" type="password" placeholder="Password" required minlength="6" #passwordField="ngModel" />
-    <div *ngIf="passwordField.invalid && passwordField.touched" class="error-message">Password is required (min 6 characters)</div>
+    
+    <input 
+      name="email" 
+      [(ngModel)]="email" 
+      type="email" 
+      placeholder="Email" 
+      required 
+      #emailField="ngModel" />
+    <div *ngIf="emailField.invalid && emailField.touched" class="error-message">
+      Email is required and must be valid
+    </div>
+    
+    <input 
+      name="password" 
+      [(ngModel)]="password" 
+      type="password" 
+      placeholder="Password" 
+      required minlength="6" 
+      #passwordField="ngModel" />
+    <div *ngIf="passwordField.invalid && passwordField.touched" class="error-message">
+      Password is required (min 6 characters)
+    </div>
 
     <button type="submit" [disabled]="signInForm.invalid">Sign In</button>
-  
 
   <!-- Social Sign-In Buttons -->
   <button (click)="signInWithGoogle()">Sign In with Google</button>

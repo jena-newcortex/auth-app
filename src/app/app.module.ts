@@ -9,6 +9,7 @@ import { AuthService } from './auth.service';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { environment } from '../environments/environment';
+import { HttpClient, HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';  // Import withFetch
 
 @NgModule({
   declarations: [
@@ -19,11 +20,12 @@ import { environment } from '../environments/environment';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     FormsModule,  // Add FormsModule here
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule
   ],
-  providers: [AuthService],
+  providers: [AuthService, provideHttpClient(withFetch())],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
