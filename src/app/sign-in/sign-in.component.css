@@ -13,6 +13,16 @@
   margin-bottom: 20px; /* Space between the logo and the form */
 }
 
+.iframe-fullpage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 1000;  /* Make sure it's on top */
+}
+
 input {
   margin: 10px 0;
   padding: 10px;
