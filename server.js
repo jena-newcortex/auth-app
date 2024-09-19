@@ -1,8 +1,26 @@
 const express = require('express');
 const { exec } = require('child_process');
+const { createProxyMiddleware } = require('http-proxy-middleware');
 const path = require('path');
 const app = express();
 const port = 3000;
+
+// Serve the Angular production build from dist/auth-app
+app.use(express.static(path.join(__dirname, 'dist/auth-app/browser/')));
+
+// Serve the Angular production app for any unmatched routes
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist/auth-app/browser/index.csr.html'));
+});
+
+// Proxy /napa requests to Streamlit app running on port 8501
+app.use('/napa', createProxyMiddleware({
+  target: 'http://localhost:8501',  // Where Streamlit is running locally
+  changeOrigin: true,
+  pathRewrite: {
+    '^/napa': '/',  // Strip /napa from the request URL before forwarding
+  }
+}));
 
 app.use(express.json());  // To parse JSON body requests
 

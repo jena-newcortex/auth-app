@@ -1,9 +1,17 @@
 {
-    "/api": {
-      "target": "http://localhost:3000",
-      "secure": false,
-      "changeOrigin": true,
-      "logLevel": "debug"
+  "/api": {
+    "target": "http://localhost:3000",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/napa": {
+    "target": "http://localhost:8501",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/napa": "/"
     }
-  }
+  }  
+}
   

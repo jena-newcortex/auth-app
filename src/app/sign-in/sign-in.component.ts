@@ -23,7 +23,7 @@ export class SignInComponent {
       this.authService.signInWithEmail(this.email, this.password)
         .then(user => {
           this.errorMessage = '';  // Clear any previous errors
-          this.showIframe = true;  // Show iframe on successful login
+          this.showIframe = false;  // Show iframe on successful login
           if (user.email) {
             this.launchStreamlitApp(user.email);  // Pass the email to launch Streamlit if email is not null
           }
@@ -43,7 +43,7 @@ export class SignInComponent {
     this.authService.signInWithGoogle()
       .then(user => {
         this.errorMessage = '';  // Clear any previous errors
-        this.showIframe = true;  // Show iframe on successful login
+        this.showIframe = false;  // Show iframe on successful login
         if (user.email) {
           this.launchStreamlitApp(user.email);  // Pass the email to launch Streamlit if email is not null
         }
@@ -62,7 +62,7 @@ export class SignInComponent {
     this.authService.signInWithGithub()
       .then(user => {
         this.errorMessage = '';  // Clear any previous errors
-        this.showIframe = true;  // Show iframe on successful login
+        this.showIframe = false;  // Show iframe on successful login
         if (user.email) {
           this.launchStreamlitApp(user.email);  // Pass the email to launch Streamlit if email is not null
         }
