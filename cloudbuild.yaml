@@ -1,0 +1,24 @@
+steps:
+  # Step 1: Build the Docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/newcortex-430221/auth-app', '.']
+
+  # Step 2: Push the Docker image to Google Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/newcortex-430221/auth-app']
+
+  # Step 3: Deploy the image to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'gcloud'
+    args:
+      [
+        'run', 'deploy', 'auth-app',                   # Name of the Cloud Run service
+        '--image', 'gcr.io/newcortex-430221/auth-app',       # The image you pushed to GCR
+        '--platform', 'managed',
+        '--region', 'us-east1',                     # Choose a region
+        '--allow-unauthenticated',                     # Optional: allow public access
+        '--port', '4000'                               # Make sure Cloud Run exposes port 4000
+      ]
+
+images:
+  - 'gcr.io/newcortex-430221/auth-app'
